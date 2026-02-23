@@ -1,4 +1,4 @@
-package com.InchMearsurement.InchMeasurement;
+package com.EqualityMearsurement;
 
 public class FeetAndInchMeasurementEquality {
 	

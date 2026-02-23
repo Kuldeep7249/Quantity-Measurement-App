@@ -1,4 +1,4 @@
-package com.InchMearsurement.InchMeasurement;
+package com.EqualityMearsurement;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
