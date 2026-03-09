@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.EqualityMearsurement</groupId>
-  <artifactId>feetMeasurementEquality</artifactId>
+  <artifactId>QuantityMeasurementApp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>feetMeasurementEquality</name>
