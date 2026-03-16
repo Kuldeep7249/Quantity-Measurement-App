@@ -1,6 +1,6 @@
 package com.quantitymeasurement.model;
 
-import com.apps.quantitymeasurement.units.IMeasurable;
+import com.quantitymeasurement.units.IMeasurable;
 
 public class QuantityModel<U extends IMeasurable> {
 
