@@ -1,64 +1,41 @@
 package com.quantitymeasurement.controller;
 
-import com.quantitymeasurement.dto.QuantityDTO;
-import com.quantitymeasurement.service.IQuantityMeasurementService;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.quantitymeasurement.entity.QuantityMeasurementEntity;
+import com.quantitymeasurement.service.QuantityMeasurementServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/measurements")
 public class QuantityMeasurementController {
 
-    private IQuantityMeasurementService service;
-
-    public QuantityMeasurementController(IQuantityMeasurementService service) {
+    private final QuantityMeasurementServiceImpl service;
+    @Autowired
+    public QuantityMeasurementController(QuantityMeasurementServiceImpl service) {
         this.service = service;
     }
 
-    // ADDITION
-    public void performAddition(QuantityDTO q1, QuantityDTO q2) {
+    @PostMapping
+    public QuantityMeasurementEntity save(@RequestBody QuantityMeasurementEntity entity) {
+       return service.save(entity);
 
-        QuantityDTO result = service.add(q1, q2);
-
-        System.out.println("Addition Result: " 
-                + result.getValue() + " " + result.getUnit());
     }
 
-    // SUBTRACTION
-    public void performSubtraction(QuantityDTO q1, QuantityDTO q2) {
-
-        QuantityDTO result = service.subtract(q1, q2);
-
-        System.out.println("Subtraction Result: "
-                + result.getValue() + " " + result.getUnit());
+    @GetMapping
+    public List<QuantityMeasurementEntity> getAll() {
+        return service.findAll();
     }
-
-    // DIVISION
-    public void performDivision(QuantityDTO q1, QuantityDTO q2) {
-
-        double result = service.divide(q1, q2);
-
-        System.out.println("Division Result: " + result);
-    }
-
-    // COMPARISON
-    public void performComparison(QuantityDTO q1, QuantityDTO q2) {
-
-        boolean result = service.compare(q1, q2);
-
-        System.out.println("Are equal: " + result);
-    }
-
-    // CONVERSION
-    public void performConversion(QuantityDTO input, String targetUnit) {
-
-        QuantityDTO result = service.convert(input, targetUnit);
-
-        System.out.println("Converted Result: "
-                + result.getValue() + " " + result.getUnit());
-    }
-
-    // DELETE ALL MEASUREMENTS
-    public void deleteAllMeasurements() {
-
+    @DeleteMapping
+    public String deleteAll(){
         service.deleteAllMeasurements();
+        return "All the measurements Deleted";
+    }
 
-        System.out.println("All measurements deleted from database.");
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable Long id) {
+        return service.deleteById(id);
     }
 }

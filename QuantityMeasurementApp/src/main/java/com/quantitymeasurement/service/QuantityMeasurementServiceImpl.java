@@ -1,109 +1,73 @@
 package com.quantitymeasurement.service;
 
-import com.quantitymeasurement.dto.QuantityDTO;
 import com.quantitymeasurement.entity.QuantityMeasurementEntity;
-import com.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.quantitymeasurement.repository.QuantityMeasurementRepository;
+import org.springframework.stereotype.Service;
 
-public class QuantityMeasurementServiceImpl
-        implements IQuantityMeasurementService {
+import java.util.List;
 
-    private IQuantityMeasurementRepository repository;
+@Service
+public class QuantityMeasurementServiceImpl {
 
-    public QuantityMeasurementServiceImpl(IQuantityMeasurementRepository repository) {
+    private final QuantityMeasurementRepository repository;
+
+    public QuantityMeasurementServiceImpl(QuantityMeasurementRepository repository) {
         this.repository = repository;
     }
 
-    @Override
-    public QuantityDTO convert(QuantityDTO input, String targetUnit) {
+    public QuantityMeasurementEntity save(QuantityMeasurementEntity entity) {
 
-        if (input == null)
-            throw new IllegalArgumentException("Input cannot be null");
+        double op1 = entity.getOperand1();
+        double op2 = entity.getOperand2();
+        String operation = entity.getOperation();
 
-        return new QuantityDTO(input.getValue(), targetUnit, input.getMeasurementType());
-    }
+        double result = 0;
 
-    @Override
-    public boolean compare(QuantityDTO q1, QuantityDTO q2) {
+        // 🔹 Business Logic
+        switch (operation.toLowerCase()) {
+            case "add":
+                result = op1 + op2;
+                break;
 
-        if (q1 == null || q2 == null)
-            throw new IllegalArgumentException("Quantities cannot be null");
+            case "subtract":
+                result = op1 - op2;
+                break;
 
-        double value1 = q1.getValue();
-        double value2 = q2.getValue();
+            case "multiply":
+                result = op1 * op2;
+                break;
 
-        String unit1 = q1.getUnit();
-        String unit2 = q2.getUnit();
+            case "divide":
+                if (op2 == 0) {
+                    throw new ArithmeticException("Cannot divide by zero");
+                }
+                result = op1 / op2;
+                break;
 
-        if (unit1.equals("FEET") && unit2.equals("INCHES")) {
-            value2 = value2 / 12;
+            default:
+                throw new IllegalArgumentException("Invalid operation: " + operation);
         }
 
-        if (unit1.equals("INCHES") && unit2.equals("FEET")) {
-            value1 = value1 / 12;
-        }
-
-        return value1 == value2;
+        // Set result in entity
+        entity.setResult(result);
+        return repository.save(entity);
     }
 
-    @Override
-    public QuantityDTO add(QuantityDTO q1, QuantityDTO q2) {
-
-        double result = q1.getValue() + q2.getValue();
-
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "ADD",
-                        q1.getValue(),
-                        q2.getValue(),
-                        result
-                );
-
-        repository.save(entity);
-
-        return new QuantityDTO(result, q1.getUnit(), q1.getMeasurementType());
+    public List<QuantityMeasurementEntity> findAll() {
+        return repository.findAll();
     }
 
-    @Override
-    public QuantityDTO subtract(QuantityDTO q1, QuantityDTO q2) {
-
-        double result = q1.getValue() - q2.getValue();
-
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "SUBTRACT",
-                        q1.getValue(),
-                        q2.getValue(),
-                        result
-                );
-
-        repository.save(entity);
-
-        return new QuantityDTO(result, q1.getUnit(), q1.getMeasurementType());
-    }
-
-    @Override
-    public double divide(QuantityDTO q1, QuantityDTO q2) {
-
-        if (q2.getValue() == 0)
-            throw new ArithmeticException("Division by zero");
-
-        double result = q1.getValue() / q2.getValue();
-
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "DIVIDE",
-                        q1.getValue(),
-                        q2.getValue(),
-                        result
-                );
-
-        repository.save(entity);
-
-        return result;
-    }
-
-    @Override
     public void deleteAllMeasurements() {
-        repository.deleteAllMeasurements();
+
+        repository.deleteAll();
+    }
+    public String deleteById(Long id){
+        if(repository.findById(id).isPresent()){
+            repository.deleteById(id);
+            return "Data deleted";
+        }
+        else{
+            return "No data is present";
+        }
     }
 }

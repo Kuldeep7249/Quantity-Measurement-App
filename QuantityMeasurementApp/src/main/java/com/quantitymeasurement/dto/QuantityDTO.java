@@ -1,40 +1,19 @@
 package com.quantitymeasurement.dto;
 
+
+import org.antlr.v4.runtime.misc.NotNull;
+
 public class QuantityDTO {
 
-    private double value;
-    private String unit;
-    private String measurementType;
+    @NotNull
+    private String operation;
 
-    public QuantityDTO() {}
+    @NotNull
+    private Double operand1;
 
-    public QuantityDTO(double value, String unit, String measurementType) {
-        this.value = value;
-        this.unit = unit;
-        this.measurementType = measurementType;
-    }
+    private Double operand2;
 
-    public double getValue() {
-        return value;
-    }
+    private Double result;
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public String getMeasurementType() {
-        return measurementType;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public void setMeasurementType(String measurementType) {
-        this.measurementType = measurementType;
-    }
+    // getters & setters
 }
