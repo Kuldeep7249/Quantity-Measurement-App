@@ -9,7 +9,6 @@ public class QuantityMeasurementEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String operation;
     private double operand1;
     private double operand2;
