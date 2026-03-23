@@ -1,7 +1,8 @@
 package com.quantitymeasurement.controller;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.quantitymeasurement.dto.QuantityDTO;
 import com.quantitymeasurement.entity.QuantityMeasurementEntity;
+import com.quantitymeasurement.service.DTOService;
 import com.quantitymeasurement.service.QuantityMeasurementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,20 +13,18 @@ import java.util.List;
 @RequestMapping("/api/measurements")
 public class QuantityMeasurementController {
 
-    private final QuantityMeasurementServiceImpl service;
-    @Autowired
-    public QuantityMeasurementController(QuantityMeasurementServiceImpl service) {
-        this.service = service;
-    }
+   DTOService q=new DTOService();
+   @Autowired
+    private QuantityMeasurementServiceImpl service;
 
     @PostMapping
-    public QuantityMeasurementEntity save(@RequestBody QuantityMeasurementEntity entity) {
-       return service.save(entity);
-
+    public QuantityDTO save(@RequestBody QuantityMeasurementEntity entity) {
+        QuantityDTO p=q.convertToDTO(entity);
+        return service.save(p);
     }
 
     @GetMapping
-    public List<QuantityMeasurementEntity> getAll() {
+    public List<QuantityDTO> getAll() {
         return service.findAll();
     }
     @DeleteMapping

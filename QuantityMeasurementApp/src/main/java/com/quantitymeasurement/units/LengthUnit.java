@@ -1,11 +1,12 @@
 package com.quantitymeasurement.units;
 
 public enum LengthUnit implements IMeasurable {
-
+    METER(39.3701),
     FEET(12.0),
     INCHES(1.0),
     YARDS(36.0),
-    CENTIMETERS(0.393701);
+    CENTIMETERS(0.393701),
+    KILOMETERS(39370.07);
 
     private final double conversionFactor;
 

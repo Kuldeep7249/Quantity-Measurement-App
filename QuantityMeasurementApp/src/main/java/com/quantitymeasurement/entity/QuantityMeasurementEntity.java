@@ -1,7 +1,9 @@
 package com.quantitymeasurement.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Data
 @Entity
 @Table(name = "quantity_measurements")
 public class QuantityMeasurementEntity {
@@ -9,21 +11,27 @@ public class QuantityMeasurementEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String operation;
     private double operand1;
     private double operand2;
     private double result;
 
-    public QuantityMeasurementEntity() {}
-
     public QuantityMeasurementEntity(String operation, double operand1, double operand2, double result) {
+        this.id = id;
         this.operation = operation;
         this.operand1 = operand1;
         this.operand2 = operand2;
         this.result = result;
     }
 
-    // getters & setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getOperation() {
         return operation;
@@ -55,13 +63,5 @@ public class QuantityMeasurementEntity {
 
     public void setResult(double result) {
         this.result = result;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

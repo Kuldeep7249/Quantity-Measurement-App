@@ -3,8 +3,8 @@ package com.quantitymeasurement.units;
 public enum TemperatureUnit implements IMeasurable {
 
     CELSIUS,
-    FAHRENHEIT;
-
+    FAHRENHEIT,
+    KELVIN;
     @Override
     public double convertToBaseUnit(double value) {
 
