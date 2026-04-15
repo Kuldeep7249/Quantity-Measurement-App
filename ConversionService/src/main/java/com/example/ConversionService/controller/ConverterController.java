@@ -26,8 +26,17 @@ public class ConverterController {
 
         return new ConvertResponseDTO(result);
     }
-    @GetMapping("/convert/history/{userid}")
-    public ResponseEntity<?> getHistory(@PathVariable Long userId) {
+
+    @GetMapping("/convert/history/{userId}/filter")
+    public ResponseEntity<?> getHistory(
+            @PathVariable Long userId,
+            @RequestParam(required = false) UnitType unitType
+    ) {
+        if (unitType != null) {
+            return ResponseEntity.ok(
+                    convertService.getHistoryByUserIdAndType(userId, unitType)
+            );
+        }
 
         return ResponseEntity.ok(
                 convertService.getHistoryByUserId(userId)

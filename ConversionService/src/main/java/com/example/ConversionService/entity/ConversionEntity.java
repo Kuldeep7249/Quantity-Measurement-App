@@ -2,9 +2,13 @@ package com.example.ConversionService.entity;
 
 import com.example.ConversionService.enums.UnitType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "conversions")
 public class ConversionEntity {

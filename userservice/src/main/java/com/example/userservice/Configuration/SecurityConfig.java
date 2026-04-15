@@ -25,9 +25,7 @@ public class SecurityConfig {
         http
                 .cors(cors->{})
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                // Allow sessions for OAuth state (Stateless breaks OAuth2 login)
 
                 .authorizeHttpRequests(auth -> auth
                         // Public routes — no token needed
